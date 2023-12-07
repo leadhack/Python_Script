@@ -1,8 +1,12 @@
-import streamlit as st;from pytube import YouTube
+# use streamlit run .\dowload_youtube.py
+import streamlit as st
+from pytube import YouTube
 def download_video(video_url, download_path):
     try:
-        st.info("Téléchargement en cours...");yt = YouTube(video_url)
-        ys = yt.streams.get_highest_resolution();ys.download(download_path)
+        st.info("Téléchargement en cours...")
+        yt = YouTube(video_url)
+        ys = yt.streams.get_highest_resolution()
+        ys.download(download_path)
         st.success("Téléchargement terminé avec succès!")
     except Exception as e: st.error(f"Une erreur s'est produite: {str(e)}")
 # Interface utilisateur Streamlit
