@@ -1,11 +1,10 @@
-import os;import shutil
+import os,shutil
 
 def deplacer_fichier_csv(rep1, rep2, nom_fichier):
     # Chemin complet du fichier source
     chemin_source = os.path.join(rep1, nom_fichier)
     # Chemin complet du fichier de destination
     chemin_destination = os.path.join(rep2, nom_fichier)
-
     try:
         # Déplacer le fichier
         shutil.move(chemin_source, chemin_destination)
