@@ -1,7 +1,6 @@
 import sqlite3
 # Connexion à la base de données (ou création si elle n'existe pas)
 conn = sqlite3.connect(':memory:')  # Utilise une base de données en mémoire
-
 # Création d'un curseur
 cursor = conn.cursor()
 
@@ -13,7 +12,6 @@ cursor.execute('''
         age INTEGER
     )
 ''')
-
 # Insertion de données
 cursor.execute('INSERT INTO utilisateurs (prenom, age) VALUES (?, ?)', ('Mehdi', 34))
 cursor.execute('INSERT INTO utilisateurs (prenom, age) VALUES (?, ?)', ('Anass', 33))
@@ -24,8 +22,6 @@ rows = cursor.fetchall()
 
 # Affichage des résultats
 print("Liste des utilisateurs:")
-for row in rows:
-    print(row)
-
+for row in rows: print(row)
 # Fermeture de la connexion
 conn.close()
