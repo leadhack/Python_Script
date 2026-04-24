@@ -1,0 +1,122 @@
+import streamlit as st
+
+st.set_page_config(page_title="Quiz SQL", layout="centered")
+
+st.title("🧠 Quiz SQL Interactif")
+
+# -------------------------
+# SESSION STATE
+# -------------------------
+if "submitted" not in st.session_state:
+    st.session_state.submitted = False
+
+if "show_dialog" not in st.session_state:
+    st.session_state.show_dialog = False
+
+# -------------------------
+# POPUP (DIALOG)
+# -------------------------
+@st.dialog("🎯 Résultat du Quiz")
+def show_result(score, total):
+
+    st.metric("Score", f"{score}/{total}")
+
+    if score == total:
+        st.success("🔥 Niveau Expert !")
+    elif score >= 7:
+        st.info("👍 Niveau Avancé")
+    elif score >= 4:
+        st.warning("📚 Niveau Intermédiaire")
+    else:
+        st.error("🐣 Niveau Débutant")
+
+    if st.button("❌ Fermer"):
+        st.rerun()
+
+# -------------------------
+# QUESTIONS
+# -------------------------
+questions = [
+    {
+        "question": "1. Que fait SELECT * ?",
+        "options": ["Toutes les tables", "Toutes les colonnes", "Supprime les données"],
+        "answer": "Toutes les colonnes"
+    },
+    {
+        "question": "2. INNER JOIN retourne :",
+        "options": ["Toutes les lignes", "Correspondances uniquement", "Aucune ligne"],
+        "answer": "Correspondances uniquement"
+    },
+    {
+        "question": "3. LEFT JOIN retourne :",
+        "options": ["Tout côté gauche", "Tout côté droit", "Intersection seulement"],
+        "answer": "Tout côté gauche"
+    },
+    {
+        "question": "4. WHERE sert à :",
+        "options": ["Trier", "Filtrer", "Grouper"],
+        "answer": "Filtrer"
+    },
+    {
+        "question": "5. GROUP BY sert à :",
+        "options": ["Filtrer", "Regrouper", "Supprimer"],
+        "answer": "Regrouper"
+    },
+    {
+        "question": "6. HAVING est utilisé pour :",
+        "options": ["Filtrer après GROUP BY", "Filtrer avant SELECT", "Trier les données"],
+        "answer": "Filtrer après GROUP BY"
+    },
+    {
+        "question": "7. COUNT(*) fait quoi ?",
+        "options": ["Compte lignes", "Compte colonnes", "Trie données"],
+        "answer": "Compte lignes"
+    },
+    {
+        "question": "8. ORDER BY sert à :",
+        "options": ["Filtrer", "Trier", "Joindre"],
+        "answer": "Trier"
+    },
+    {
+        "question": "9. INNER JOIN est utilisé pour :",
+        "options": ["Fusionner toutes les données", "Correspondance entre tables", "Supprimer doublons"],
+        "answer": "Correspondance entre tables"
+    },
+    {
+        "question": "10. SELECT sert à :",
+        "options": ["Supprimer", "Insérer", "Récupérer des données"],
+        "answer": "Récupérer des données"
+    }
+]
+
+# -------------------------
+# USER INPUTS
+# -------------------------
+name = st.text_input("👤 Ton nom")
+
+st.markdown("---")
+
+user_answers = []
+
+for i, q in enumerate(questions):
+    ans = st.radio(q["question"], q["options"], key=f"q{i}")
+    user_answers.append(ans)
+
+# -------------------------
+# SCORE BUTTON
+# -------------------------
+if st.button("🎯 Voir mon score"):
+
+    score = 0
+
+    for i, q in enumerate(questions):
+        if user_answers[i] == q["answer"]:
+            score += 1
+
+    st.session_state.submitted = True
+
+    if name:pass
+        #st.toast(f"👏 Bravo {name} !")
+
+    # OUVRIR POPUP
+    show_result(score, len(questions))
